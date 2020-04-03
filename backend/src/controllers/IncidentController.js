@@ -40,7 +40,7 @@ module.exports = {
 
   async delete(request, response) {
     const {id} = request.params;
-    const ong_id = request.headers.authorization;
+    const ong_id = request.headers.autorization;
 
     const incident = await connection('incidents')
         .where('id', id)
@@ -54,5 +54,34 @@ module.exports = {
     await connection('incidents').where('id', id).delete();
 
     return response.status(204).send();
+  },
+
+  async get(request, response) {
+    const id = request.params.id;
+
+    const incidents = await connection('incidents')
+    .where('id', id)
+    .select([
+      'title',
+      'description',
+      'value'
+    ]);
+
+    return response.json( incidents );
+  },
+
+  async update(request, response) {
+    const { title, description, value} = request.body;
+    const id = request.params.id;
+
+    const incidents = await connection('incidents')
+    .where('id', id)
+    .update({
+      'title': title,
+      'description': description,
+      'value': value
+    });
+
+    return response.json( {incidents} );
   },
 }

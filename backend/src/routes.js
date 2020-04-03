@@ -24,6 +24,10 @@ routes.get('/incidents', celebrate({
 
 routes.post('/incidents', IncidentController.create);
 
+routes.get('/incidents/:id', IncidentController.get);
+
+routes.put('/incidents/:id', IncidentController.update);
+
 routes.delete('/incidents/:id',celebrate({
   [Segments.PARAMS]: Joi.object().keys({
     id: Joi.number().required(),
